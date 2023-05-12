@@ -1,6 +1,6 @@
 library(sf)
 library(tidyverse)
-map <- st_read("data/pri_adm_2019_shp/pri_admbnda_adm1_2019.shp") %>%
+map <- st_read("inst/extdata/pri_adm_2019_shp/pri_admbnda_adm1_2019.shp") %>%
   st_transform(crs = 4326) %>%
   st_crop(xmin = -67.3, xmax = -65.3, ymin = 17.9, ymax = 18.5)
 
@@ -17,6 +17,9 @@ map <- map_df(seq_along(map2), function(i){
     data.frame(municipio = names(map2)[i], part = j, X = tmp2[,1], Y = tmp2[,2])
   })
 })
+
+map <- map |> arrange(municipio)
+map_centers <- map_centers |> arrange(municipio)
 
 save(map, map_centers, file = "data/map.rda")
 ## tests

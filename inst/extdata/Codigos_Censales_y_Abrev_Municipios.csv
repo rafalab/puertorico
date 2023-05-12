@@ -1,0 +1,80 @@
+Municipio,ABR,CNTY,GEOID,region_salud
+Adjuntas,ADJ,1,72001,Ponce
+Aguada,AGD,3,72003,Mayagüez/Aguadilla
+Aguadilla,AGL,5,72005,Mayagüez/Aguadilla
+Aguas Buenas,ABU,7,72007,Caguas
+Aibonito,AIB,9,72009,Caguas
+Añasco,ANA,11,72011,Mayagüez/Aguadilla
+Arecibo,ARE,13,72013,Arecibo
+Arroyo,ARR,15,72015,Ponce
+Barceloneta,BCL,17,72017,Arecibo
+Barranquitas,BQT,19,72019,Bayamón
+Bayamón,BAY,21,72021,Bayamón
+Cabo Rojo,CAB,23,72023,Mayagüez/Aguadilla
+Caguas,CAG,25,72025,Caguas
+Camuy,CAM,27,72027,Arecibo
+Canóvanas,CAN,29,72029,Metro
+Carolina,CAR,31,72031,Metro
+Cataño,CAT,33,72033,Bayamón
+Cayey,CAY,35,72035,Caguas
+Ceiba,CEI,37,72037,Fajardo
+Ciales,CIA,39,72039,Arecibo
+Cidra,CID,41,72041,Caguas
+Coamo,COA,43,72043,Ponce
+Comerío,COM,45,72045,Bayamón
+Corozal,COR,47,72047,Bayamón
+Culebra,CUL,49,72049,Fajardo
+Dorado,DOR,51,72051,Bayamón
+Fajardo,FAJ,53,72053,Fajardo
+Florida,FLO,54,72054,Arecibo
+Guánica,GNC,55,72055,Ponce
+Guayama,GYM,57,72057,Ponce
+Guayanilla,GYL,59,72059,Ponce
+Guaynabo,GYB,61,72061,Metro
+Gurabo,GUR,63,72063,Caguas
+Hatillo,HAT,65,72065,Arecibo
+Hormigueros,HOR,67,72067,Mayagüez/Aguadilla
+Humacao,HUM,69,72069,Caguas
+Isabela,ISA,71,72071,Mayagüez/Aguadilla
+Jayuya,JAY,73,72073,Ponce
+Juana Díaz,JUA,75,72075,Ponce
+Juncos,JUN,77,72077,Caguas
+Lajas,LAJ,79,72079,Ponce
+Lares,LAR,81,72081,Arecibo
+Las Marías,LMA,83,72083,Mayagüez/Aguadilla
+Las Piedras,LPI,85,72085,Caguas
+Loíza,LOI,87,72087,Metro
+Luquillo,LUQ,89,72089,Fajardo
+Manatí,MAN,91,72091,Arecibo
+Maricao,MAR,93,72093,Mayagüez/Aguadilla
+Maunabo,MAU,95,72095,Caguas
+Mayagüez,MAY,97,72097,Mayagüez/Aguadilla
+Moca,MOC,99,72099,Mayagüez/Aguadilla
+Morovis,MOR,101,72101,Arecibo
+Naguabo,NAG,103,72103,Caguas
+Naranjito,NAR,105,72105,Bayamón
+Orocovis,ORO,107,72107,Bayamón
+Patillas,PAT,109,72109,Ponce
+Peñuelas,PEN,111,72111,Ponce
+Ponce,PON,113,72113,Ponce
+Quebradillas,QUE,115,72115,Arecibo
+Rincón,RIN,117,72117,Mayagüez/Aguadilla
+Río Grande,RGR,119,72119,Fajardo
+Sabana Grande,SGR,121,72121,Mayagüez/Aguadilla
+Salinas,SAL,123,72123,Ponce
+San Germán,SGE,125,72125,Mayagüez/Aguadilla
+San Juan,SJU,127,72127,Metro
+San Lorenzo,SLO,129,72129,Caguas
+San Sebastián,SSE,131,72131,Mayagüez/Aguadilla
+Santa Isabel,SIS,133,72133,Ponce
+Toa Alta,TAL,135,72135,Bayamón
+Toa Baja,TBA,137,72137,Bayamón
+Trujillo Alto,TRU,139,72139,Metro
+Utuado,UTU,141,72141,Arecibo
+Vega Alta,VAL,143,72143,Bayamón
+Vega Baja,VBA,145,72145,Arecibo
+Vieques,VIE,147,72147,Fajardo
+Villalba,VIL,149,72149,Ponce
+Yabucoa,YAB,151,72151,Caguas
+Yauco,YAU,153,72153,Ponce
+Puerto Rico,PRI,72,72,

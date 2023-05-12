@@ -1,6 +1,6 @@
 #' Fix municipio names
 #'
-#'@description `fix_municipio` fixes typical data entry errors found in municipio names by matching each argument to the set correctly spelled municipios using Levenshtein metric.
+#'@description \code{fix_municipio} fixes typical data entry errors found in municipio names by matching each argument to the set correctly spelled municipios using Levenshtein metric.
 #'
 #'@param x character string or vector of character strings from Puerto Rico municipios
 #'@param min.dist numeric.
@@ -13,19 +13,12 @@
 #'
 #'@examples
 #'
-#'example_1 <- c("franques", "manati", "Veja Baja" , "Comerip", "San Juan", "Mayaguez", "rio piedras")
+#'example <- c("franques", "manati", "Veja Baja" , "Comerip", "San Juan", "Mayaguez", "rio piedras")
 #'
-#'fix_municipio(example_1)
+#'fix_municipio(example)
 #'
-#'fix_municipio(example_1, check.barrios = FALSE)
 #'
-#' @export
-#' @import data.table
-#' @import stringr
-#' @import stringdist
-#' @import dplyr
-
-
+#'@export
 fix_municipio <- function(x, min.dist = 2,
                           min.score = 1/3,
                           check.barrios = TRUE,
@@ -63,7 +56,7 @@ fix_municipio <- function(x, min.dist = 2,
 
     query <- query |>
       to_english() |>
-      str_remove_all("[^a-zA-Z]+")
+      stringr::str_remove_all("[^a-zA-Z]+")
 
     ## remove common errors
     query[query=="puertorico" | query == "unknown" | query == "pr"] <- ""
@@ -75,7 +68,7 @@ fix_municipio <- function(x, min.dist = 2,
     ## if not all matched keep going
     if(!all(ind1) & check.barrios){
 
-      load(file.path(system.file("data", package = "puertorico"), "barrios.rda"))
+      #load(file.path(system.file("data", package = "puertorico"), "barrios.rda"))
 
       ## if there is ambiguity we do not assign a municipio
 
@@ -87,9 +80,9 @@ fix_municipio <- function(x, min.dist = 2,
       }
 
       ## use tmp to match barrios or misspellings in query to barrios in our table
-      query_dt <- data.table(barrio = query[!ind1])
-      setkey(query_dt, barrio)
-      setkey(barrios, barrio)
+      query_dt <- data.table::data.table(barrio = query[!ind1])
+      data.table::setkey(query_dt, barrio)
+      data.table::setkey(barrios, barrio)
       tmp <- merge(query_dt, barrios, by = "barrio", all.x = TRUE)
 
       ans[!ind1] <- tmp$municipio
@@ -100,7 +93,7 @@ fix_municipio <- function(x, min.dist = 2,
       if(length(ind)>0){
 
         for(i in 1:nrow(map_mun)){
-          ind2 <- str_which(query[ind], map_mun$id[i])
+          ind2 <- stringr::str_which(query[ind], map_mun$id[i])
           if(length(ind2)>0) ans[ind[ind2]] <- map_mun$municipio[i]
         }
 
@@ -115,7 +108,7 @@ fix_municipio <- function(x, min.dist = 2,
           ind_mun <- apply(d_mun, 1, which.min)
           min_d_mun <- apply(d_mun, 1, min)
           if(first.letter.match){ ##require first letter matches
-            min_d_mun[str_sub(query[ind],1,1) != str_sub(map_mun$id[ind_mun],1,1)] <- Inf
+            min_d_mun[stringr::str_sub(query[ind],1,1) != stringr::str_sub(map_mun$id[ind_mun],1,1)] <- Inf
           }
           score_mun <- min_d_mun / nchar(query[ind])
 
@@ -136,7 +129,7 @@ fix_municipio <- function(x, min.dist = 2,
             ind_bar <- apply(d_bar, 1, which.min)
             min_d_bar <- apply(d_bar, 1, min)
             if(first.letter.match){
-              min_d_bar[str_sub(query[ind], 1, 1) != str_sub(barrios$barrio[ind_bar], 1, 1)] <- Inf
+              min_d_bar[stringr::str_sub(query[ind], 1, 1) != stringr::str_sub(barrios$barrio[ind_bar], 1, 1)] <- Inf
             }
             score_bar <- min_d_bar / nchar(query[ind])
 
@@ -153,7 +146,7 @@ fix_municipio <- function(x, min.dist = 2,
             if(length(ind)>0){
               ##check if barrio included
               for(i in 1:nrow(barrios)){
-                ind2 <- str_which(query[ind], barrios$barrio[i])
+                ind2 <- stringr::str_which(query[ind], barrios$barrio[i])
                 if(length(ind2)>0){
                   ans[ind[ind2]] <- barrios$municipio[i]
                   barrio[ind[ind2]] <- barrios$original_barrio[i]
@@ -172,7 +165,7 @@ fix_municipio <- function(x, min.dist = 2,
                         score = the_score)
 
   ret <- data.frame(original = as.character(x)) |>
-    left_join(look_up, by = "original")
+    dplyr::left_join(look_up, by = "original")
 
   if(return.dist){
     return(ret)

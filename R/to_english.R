@@ -4,18 +4,18 @@
 #'
 #'@details This function serves for English language character normalization by removing traditional symbols used in other languages.
 #' 
-#' @param ... Character argument.
+#'@param x character argument.
+#'@param remove.space defaults to `TRUE`. Removes spaces between letters. 
 #' 
-#' @example 
-#' 
+#'@examples
 #' to_english(c("niño y niña", "método", "matemáticas"))
-
-
+#' 
+#'@export
 to_english <- function(x, remove.space = TRUE) {
   x <- x |>
-    replace_na("") |>
-    str_to_lower() |>
-    str_replace_all(c(
+    tidyr::replace_na("") |>
+    stringr::str_to_lower() |>
+    stringr::str_replace_all(c(
       "á" = "a",
       "é" = "e",
       "í" = "i",
@@ -24,8 +24,9 @@ to_english <- function(x, remove.space = TRUE) {
       "ü" = "u",
       "ñ" = "n"
     ))
-  if(remove.space) x <- str_remove_all(x ,"\\s+") 
-  else x <- str_trim(x)
+  if(remove.space) x <- stringr::str_remove_all(x ,"\\s+") 
+  else x <- stringr::str_trim(x)
+  return(x)
 }
 
 

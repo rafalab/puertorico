@@ -84,5 +84,6 @@ setnames(barrios, "municipio", "id")
 barrios <- merge(barrios, map_mun, by = "id", all.x = TRUE)
 barrios$barrio[barrios$barrio == "barriopueblo(isabelii)"] <- "isabellii"
 
+
 save(barrios, file = "data/barrios.rda")
 
