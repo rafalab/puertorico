@@ -11,7 +11,8 @@ fix_municipio(
   check.barrios = TRUE,
   min.score.barrio = 2/9,
   first.letter.match = TRUE,
-  return.dist = FALSE
+  return.dist = FALSE,
+  additional.barrios = NULL
 )
 }
 \arguments{
@@ -28,16 +29,17 @@ fix_municipio(
 \item{first.letter.match}{logical. Defaults to `TRUE`. If `FALSE` then the function does not use the first letter match.}
 
 \item{return.dist}{logical. Defaults to `FALSE`. If `TRUE` returns the Levenshteins metric for each match.}
+
+\item{additional.barrios}{Defaults to `NULL`. data.frame with the first column of additional barrios and the second column of their corresponding municipios.}
 }
 \description{
-`fix_municipio` fixes typical data entry errors found in municipio names by matching each argument to the set correctly spelled municipios using Levenshtein metric.
+\code{fix_municipio} fixes typical data entry errors found in municipio names by matching each argument to the set correctly spelled municipios using Levenshtein metric.
 }
 \examples{
 
-example_1 <- c("franques", "manati", "Veja Baja" , "Comerip", "San Juan", "Mayaguez")
+example <- c("franques", "manati", "Veja Baja" , "Comerip", "San Juan", "Mayaguez", "rio piedras")
 
-fix_municipio(example_1)
+fix_municipio(example)
 
-fix_municipio(example_1, check.barrios = FALSE)
 
 }

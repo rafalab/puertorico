@@ -4,14 +4,20 @@
 \alias{to_english}
 \title{To English}
 \usage{
-to_english(x)
+to_english(x, remove.space = TRUE)
 }
 \arguments{
-\item{...}{Character argument.}
+\item{x}{character argument.}
+
+\item{remove.space}{defaults to `TRUE`. Removes spaces between letters.}
 }
 \description{
 `to_english` takes an character argument and removes diacritic marks, dieresis or tildes from modern latin alphabet letters.
 }
 \details{
 This function serves for English language character normalization by removing traditional symbols used in other languages.
+}
+\examples{
+to_english(c("niño y niña", "método", "matemáticas"))
+
 }
