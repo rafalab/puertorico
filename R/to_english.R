@@ -16,13 +16,13 @@ to_english <- function(x, remove.space = TRUE) {
     tidyr::replace_na("") |>
     stringr::str_to_lower() |>
     stringr::str_replace_all(c(
-      "á" = "a",
-      "é" = "e",
-      "í" = "i",
-      "ó" = "o",
-      "ú" = "u",
-      "ü" = "u",
-      "ñ" = "n"
+      "\u00E1" = "a",
+      "\u00E9" = "e",
+      "\u00ED" = "i",
+      "\u00F3" = "o",
+      "\u00FA" = "u",
+      "\u00FC" = "u",
+      "\u00F1" = "n"
     ))
   if(remove.space) x <- stringr::str_remove_all(x ,"\\s+") 
   else x <- stringr::str_trim(x)

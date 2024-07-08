@@ -28,17 +28,17 @@ fix_municipio <- function(x, min.dist = 2,
                           additional.barrios = NULL) {
 
 
-  municipios <- c("Adjuntas", "Aguada", "Aguadilla", "Aguas Buenas", "Aibonito", "Añasco",
-                  "Arecibo", "Arroyo", "Barceloneta", "Barranquitas", "Bayamón", "Cabo Rojo",
-                  "Caguas", "Camuy", "Canóvanas", "Carolina", "Cataño", "Cayey", "Ceiba",
-                  "Ciales", "Cidra", "Coamo", "Comerío", "Corozal", "Culebra", "Dorado",
-                  "Fajardo", "Florida", "Guánica", "Guayama", "Guayanilla", "Guaynabo",
+  municipios <- c("Adjuntas", "Aguada", "Aguadilla", "Aguas Buenas", "Aibonito", "A\u00F1asco",
+                  "Arecibo", "Arroyo", "Barceloneta", "Barranquitas", "Bayam\u00F3n", "Cabo Rojo",
+                  "Caguas", "Camuy", "Can\u00F3vanas", "Carolina", "Cata\u00F1o", "Cayey", "Ceiba",
+                  "Ciales", "Cidra", "Coamo", "Comer\u00EDo", "Corozal", "Culebra", "Dorado",
+                  "Fajardo", "Florida", "Gu\u00E1nica", "Guayama", "Guayanilla", "Guaynabo",
                   "Gurabo", "Hatillo", "Hormigueros", "Humacao", "Isabela", "Jayuya",
-                  "Juana Díaz", "Juncos", "Lajas", "Lares", "Las Marías", "Las Piedras",
-                  "Loíza", "Luquillo", "Manatí", "Maricao", "Maunabo", "Mayagüez", "Moca",
-                  "Morovis", "Naguabo", "Naranjito", "Orocovis", "Patillas", "Peñuelas",
-                  "Ponce", "Quebradillas", "Rincón", "Río Grande", "Sabana Grande", "Salinas",
-                  "San Germán", "San Juan", "San Lorenzo", "San Sebastián", "Santa Isabel",
+                  "Juana D\u00EDaz", "Juncos", "Lajas", "Lares", "Las Mar\u00EDas", "Las Piedras",
+                  "Lo\u00EDza", "Luquillo", "Manat\u00ED", "Maricao", "Maunabo", "Mayag\u00FCez", "Moca",
+                  "Morovis", "Naguabo", "Naranjito", "Orocovis", "Patillas", "Pe\u00F1uelas",
+                  "Ponce", "Quebradillas", "Rinc\u00F3n", "R\u00EDo Grande", "Sabana Grande", "Salinas",
+                  "San Germ\u00E1n", "San Juan", "San Lorenzo", "San Sebasti\u00E1n", "Santa Isabel",
                   "Toa Alta", "Toa Baja", "Trujillo Alto", "Utuado", "Vega Alta", "Vega Baja",
                   "Vieques", "Villalba", "Yabucoa", "Yauco")
   x <- as.factor(x)
