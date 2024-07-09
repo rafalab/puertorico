@@ -153,7 +153,7 @@ wrangle_pep <- function(dat, municipio = NULL, year_input) {
   ageRange_levels <- paste(ageRange_starts, ageRange_ends, sep = "-")
   ageRange_levels[length(ageRange_levels)] <- paste0(ageRange_starts[length(ageRange_levels)],"Inf")
   
-  
+  year_input <- 2009
   dat <- as.data.table(dat)
   if (year_input < 2020) {
     dat <- stats::setNames(dat, as.character(dat[1,]))
@@ -171,10 +171,14 @@ wrangle_pep <- function(dat, municipio = NULL, year_input) {
       dat <- dat[, "age" := as.numeric(age)]
       dat <- dat[year %in% year_input]
     } else {
-      dat <- dat[, c("NAME","SEX", "AGEGROUP", "year", "POP")]
-      dat[, "municipio" := str_remove(NAME, " Municipio, Puerto Rico")]
-      dat[, "NAME" := NULL]
-      dat <- stats::setNames(dat, c("gender", "agegroup", "year", "estimate", "municipio"))
+      old_substrings <- c("NAME", "GEONAME")
+      new_name <- "municipio"
+      
+      dat <- rename_columns(dat, old_substrings, new_name)
+      
+      dat <- dat[, c("municipio","SEX", "AGEGROUP", "year", "POP")]
+      dat[, "municipio" := str_remove(municipio, " Municipio, Puerto Rico")]
+      dat <- stats::setNames(dat, c("municipio","gender", "agegroup", "year", "estimate"))
       ageRanges <- stats::setNames(ageRange_levels, 1:18)
       dat[, "ageRange" := ageRanges[agegroup]]
       dat <- dat[gender!=0 & !is.na(ageRange)]
@@ -245,9 +249,15 @@ get_wrangle_estimates <- function(year_input, product, municipio, census_key) {
     dat <- wrangle_dat(dat, product = "decennial", variable_names = var_names, year_input = year_input)
   } else if (product == "pep") {
     if (year_input %in% 2000:2009) {
-      api <- "https://api.census.gov/data/2000/pep/int_charage?get=GEONAME,SEX,AGE,AGE_DESC,POP,DATE_DESC,DATE_,LASTUPDATE&for=state:72&key="
-      x <- httr::GET(paste0(api, census_key))
-      dat <- jsonlite::fromJSON(rawToChar(x$content), flatten=T)
+      if (!municipio) {
+        api <- "https://api.census.gov/data/2000/pep/int_charage?get=GEONAME,SEX,AGE,AGE_DESC,POP,DATE_DESC,DATE_,LASTUPDATE&for=state:72&key="
+        x <- httr::GET(paste0(api, census_key))
+        dat <- jsonlite::fromJSON(rawToChar(x$content), flatten=T)
+      } else {
+        api <- "https://api.census.gov/data/2000/pep/int_charagegroups?get=GEONAME,AGEGROUP,SEX,POP,DATE_DESC&for=county:*&in=state:72&SEX!=0&key="
+        x <- httr::GET(paste0(api, census_key))
+        dat <- jsonlite::fromJSON(rawToChar(x$content), flatten=T)
+      }
     } else if (year_input %in% 2010:2019) {
       if (!municipio) {
         api <- "https://api.census.gov/data/2019/pep/charage?get=POP,AGE,SEX,DATE_CODE,DATE_DESC&for=state:72&key="
@@ -265,4 +275,21 @@ get_wrangle_estimates <- function(year_input, product, municipio, census_key) {
     dat <- wrangle_pep(dat, municipio = municipio, year_input = year_input)
   }
   return(dat)
+}
+
+#' Helper Function 6: function to rename columns containing specific substrings
+#'
+#' @param df data.frame/data.table
+#' @param old_substrings old column names
+#' @param new_name new column names
+#' @return  data.table
+rename_columns <- function(df, old_substrings, new_name) {
+  names(df) <- sapply(names(df), function(col_name) {
+    if (any(grepl(paste(old_substrings, collapse="|"), col_name))) {
+      return(new_name)
+    } else {
+      return(col_name)
+    }
+  })
+  df
 }
