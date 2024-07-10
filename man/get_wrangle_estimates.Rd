@@ -4,14 +4,14 @@
 \alias{get_wrangle_estimates}
 \title{Helper Function 5: get and wrangle estimates by single year}
 \usage{
-get_wrangle_estimates(year_input, product, municipio, census_key)
+get_wrangle_estimates(year_input, product, municipio.pep, census_key)
 }
 \arguments{
 \item{year_input}{numeric argument. It refers to the year for which the user wants population estimates.}
 
 \item{product}{character argument. Refers to the USCB product to call: "acs" for American Community Survey, "pep" for Population Estimates and Projecttions, and "decennial" for Decennial Census.}
 
-\item{municipio}{logical argument. Defaults to FALSE. If TRUE, it returns populations estimates by municipio for preselected age groups.}
+\item{municipio.pep}{logical argument. Defaults to FALSE. If TRUE, it returns populations estimates by municipio for preselected age groups.}
 
 \item{census_key}{character argument. The census key is provided by the US Census Bureau. To obtain a census key, please visit \url{https://api.census.gov/data/key_signup.html}.}
 }

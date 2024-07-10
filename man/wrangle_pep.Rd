@@ -4,12 +4,12 @@
 \alias{wrangle_pep}
 \title{Helper Function 4: wrangle PEP data}
 \usage{
-wrangle_pep(dat, municipio = NULL, year_input)
+wrangle_pep(dat, municipio.pep, year_input)
 }
 \arguments{
 \item{dat}{data as downloaded from USCB}
 
-\item{municipio}{TRUE or FALSE}
+\item{municipio.pep}{TRUE or FALSE}
 
 \item{year_input}{years in dat}
 }

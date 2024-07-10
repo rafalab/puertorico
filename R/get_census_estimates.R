@@ -34,7 +34,7 @@ get_census_estimates <- function(years, product, municipio.pep = FALSE, census_k
         tmp <- get_wrangle_estimates(
           product = product,
           year_input = y,
-          municipio = municipio.pep,
+          municipio.pep = municipio.pep,
           census_key = census_key
         )
         return(tmp)
@@ -49,7 +49,7 @@ get_census_estimates <- function(years, product, municipio.pep = FALSE, census_k
         tmp <- get_wrangle_estimates(
           product = product,
           year_input = y,
-          municipio = municipio.pep,
+          municipio.pep = municipio.pep,
           census_key = census_key
         )
         return(tmp)
@@ -64,7 +64,7 @@ get_census_estimates <- function(years, product, municipio.pep = FALSE, census_k
           tmp <- get_wrangle_estimates(
             product = product,
             year_input = y,
-            municipio = municipio.pep,
+            municipio.pep = municipio.pep,
             census_key = census_key
           )
           return(tmp)
@@ -81,7 +81,7 @@ get_census_estimates <- function(years, product, municipio.pep = FALSE, census_k
     tmp <- get_wrangle_estimates(
       product = product,
       year_input = y,
-      municipio = NULL,
+      municipio.pep = NULL,
       census_key = census_key
     )
     return(tmp)
