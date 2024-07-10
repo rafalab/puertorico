@@ -4,14 +4,14 @@
 \alias{get_census_estimates}
 \title{Get tidy population estimates for Puerto Rico}
 \usage{
-get_census_estimates(years, product, municipio, census_key)
+get_census_estimates(years, product, municipio.pep = FALSE, census_key)
 }
 \arguments{
 \item{years}{numeric argument. It refers to the years for which the user wants population estimates.}
 
 \item{product}{character argument. Refers to the USCB product to call: "acs" for American Community Survey, "pep" for Population Estimates and Projecttions, and "decennial" for Decennial Census.}
 
-\item{municipio}{logical argument. Defaults to FALSE. If TRUE, it returns populations estimates by municipio for preselected age groups. For ACS and Decennial products, municipio is always TRUE.}
+\item{municipio.pep}{logical argument. Defaults to FALSE. If TRUE, it returns populations estimates (PEP) by municipio for preselected age groups. For ACS and Decennial products, municipio is always TRUE.}
 
 \item{census_key}{character argument. The census key is provided by the US Census Bureau. To obtain a census key, please visit \url{https://api.census.gov/data/key_signup.html}.}
 }
@@ -21,6 +21,6 @@ This function returns a tidy dataset of population estimates for Puerto Rico. It
 \examples{
 \dontrun{
 # Example usage of the function with sensitive information
-get_census_estimates(2011:2015, product = "acs", municipio = TRUE, census_key = your_census_key)
+get_census_estimates(2011:2015, product = "acs", municipio.pep = FALSE, census_key = yourcensuskey)
 }
 }

@@ -38,6 +38,7 @@ wrangle_dat <- function(dat, product = NULL, variable_names = NULL, year_input) 
   if(product == "pep"){
     return(print("Use wrangle_pep function"))
   }
+  
   if (product == "acs") {
     cols_end_with <- c("E", "M")
     pattern_var <- "B01001_"
@@ -78,6 +79,7 @@ wrangle_dat <- function(dat, product = NULL, variable_names = NULL, year_input) 
   dat[, "county" := NULL]
   dat[, "state" := NULL]
   dat[, "municipio" := str_remove(municipio, " Municipio, Puerto Rico")]
+  
   if (length(cols_end_with) == 2) {
     cols_to_keep <- c("municipio", 
                       colnames(dat)[endsWith(colnames(dat),cols_end_with[1])],
@@ -115,7 +117,8 @@ wrangle_dat <- function(dat, product = NULL, variable_names = NULL, year_input) 
   if (all(cols_end_with != "") & product != "acs") {
     dat[, "variable" := as.numeric(str_remove(variable, cols_end_with))]
   } else {
-    dat[, 'variable' := as.numeric(variable)]
+    dat <- dat[!is.na(label)]
+    dat[, "variable" := as.numeric(variable)]
   }
   dat[, "gender" := NA]
   dat[, "gender" := fcase(variable %in% male_no, "M", 
@@ -152,8 +155,7 @@ wrangle_pep <- function(dat, municipio = NULL, year_input) {
   ageRange_ends <- c(ageRange_starts[-1]-1, Inf)
   ageRange_levels <- paste(ageRange_starts, ageRange_ends, sep = "-")
   ageRange_levels[length(ageRange_levels)] <- paste0(ageRange_starts[length(ageRange_levels)],"Inf")
-  
-  year_input <- 2009
+
   dat <- as.data.table(dat)
   if (year_input < 2020) {
     dat <- stats::setNames(dat, as.character(dat[1,]))
@@ -169,7 +171,6 @@ wrangle_pep <- function(dat, municipio = NULL, year_input) {
                              `1` = "M", 
                              `2` = "F")]
       dat <- dat[, "age" := as.numeric(age)]
-      dat <- dat[year %in% year_input]
     } else {
       old_substrings <- c("NAME", "GEONAME")
       new_name <- "municipio"
@@ -186,7 +187,6 @@ wrangle_pep <- function(dat, municipio = NULL, year_input) {
                              `1` = "M", 
                              `2` = "F")]
       dat[, "agegroup" := NULL]
-      dat <- dat[year %in% year_input]
     } 
     
   } else if (year_input >= 2020) {
