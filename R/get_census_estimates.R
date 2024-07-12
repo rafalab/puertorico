@@ -44,7 +44,7 @@ get_census_estimates <- function(years, product, municipio.pep = FALSE, census_k
     }
     
     if (any(years >= 2010) & any(years <= 2019)) {
-      years_pep <- years
+      years_pep <- years[years >=2010 & years <= 2019]
       temp.2 <- purrr::map_df(years_pep, function(y) {
         tmp <- get_wrangle_estimates(
           product = product,
