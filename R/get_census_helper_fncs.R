@@ -33,7 +33,7 @@ vars_names <- function(list_var) {
 
 wrangle_dat <- function(dat, product = NULL, variable_names = NULL, year_input) {
   
-  patterns = NAME = municipio = label = variable = estimate = moe = gender= agegroup = NULL # due to NSE notes in R CMD check
+  patterns = NAME = municipio = label = variable = estimate = moe = gender= agegroup = ageRange= NULL # due to NSE notes in R CMD check
   
   if(product == "pep"){
     return(print("Use wrangle_pep function"))
@@ -67,7 +67,7 @@ wrangle_dat <- function(dat, product = NULL, variable_names = NULL, year_input) 
   ageRange_starts <- c( seq(0, 85, 5))
   ageRange_ends <- c(ageRange_starts[-1]-1, Inf)
   ageRange_levels <- paste(ageRange_starts, ageRange_ends, sep = "-")
-  ageRange_levels[length(ageRange_levels)] <- paste0(ageRange_starts[length(ageRange_levels)],"Inf")
+  ageRange_levels[length(ageRange_levels)] <- paste0(ageRange_starts[length(ageRange_levels)],"-Inf")
   
   
   dat <- as.data.table(dat)
@@ -127,14 +127,15 @@ wrangle_dat <- function(dat, product = NULL, variable_names = NULL, year_input) 
   dat[, "label" := str_remove(label, "Estimate!!Total:!!\\b(?:Female|Male)\\b:!!")]
   
   dat <- dat[!is.na(gender)]
-  dat[, "agegroup" := sapply(label, extract_numeric_ranges)]
-  dat[, "agegroup" :=  fifelse(agegroup == "5-", "0-4",
-                             fifelse(agegroup == "85-", "85+", agegroup))]
+  dat[, "ageRange" := sapply(label, extract_numeric_ranges)]
+  dat[, "ageRange" := fifelse(ageRange == "5-", "0-4",
+                             fifelse(ageRange == "85-", "85-Inf", ageRange))]
+  dat[, "ageRange" := ifelse(endsWith(ageRange, "-"), str_extract(ageRange, "\\d+"),ageRange)]
   
   if (product == "acs") {
-    dat <- dat[, c("municipio", "agegroup", "gender", "estimate", "moe")]
+    dat <- dat[, c("municipio", "ageRange", "gender", "estimate", "moe")]
   } else {
-    dat <- dat[, c("municipio", "agegroup", "gender", "estimate")]
+    dat <- dat[, c("municipio", "ageRange", "gender", "estimate")]
   }
   return(dat)
   
@@ -154,7 +155,7 @@ estimate = . =DATE_DESC = gender = NAME = municipio = YEAR = CTYNAME = age = age
   ageRange_starts <- c( seq(0, 85, 5))
   ageRange_ends <- c(ageRange_starts[-1]-1, Inf)
   ageRange_levels <- paste(ageRange_starts, ageRange_ends, sep = "-")
-  ageRange_levels[length(ageRange_levels)] <- paste0(ageRange_starts[length(ageRange_levels)],"Inf")
+  ageRange_levels[length(ageRange_levels)] <- paste0(ageRange_starts[length(ageRange_levels)],"-Inf")
 
   dat <- as.data.table(dat)
   if (year_input < 2020) {
@@ -195,12 +196,20 @@ estimate = . =DATE_DESC = gender = NAME = municipio = YEAR = CTYNAME = age = age
     dat <- dat[year >= 2020]
     dat <- dat[, c("year", "municipio", "AGE", "TOT_MALE", "TOT_FEMALE")]
     dat <- stats::setNames(dat, c( "year", "municipio", "age", "M", "F"))
-    dat <- melt(dat,
+    dat <- data.table(melt(dat,
                 id.vars = c( "municipio", "age", "year"),
                 variable.name = "gender", 
-                value.name = "estimate")
+                value.name = "estimate"))
+
+      
     if (!municipio.pep) {
       dat <- dat[, keyby = .(age, year, gender), .(estimate = sum(estimate))]
+    } else {
+      dat[, "ageRange" := cut(age, c(ageRange_starts, Inf),
+                                            labels = ageRange_levels, right = F)]
+      dat[, "ageRange" := factor(ageRange, levels = ageRange_levels)]
+      dat <-  dat[, keyby = .(ageRange, municipio, year, gender), .(estimate = sum(estimate))]   
+      
     }
   }
   
@@ -228,6 +237,7 @@ get_wrangle_estimates <- function(year_input, product, municipio.pep, census_key
     vars <- jsonlite::fromJSON(paste0("https://api.census.gov/data/", year_input, "/acs/acs5/variables.json"), flatten = T)$variables
     var_names <- vars_names(vars)
     dat <- wrangle_dat(dat, product = "acs", variable_names = var_names)
+    dat$year <- year_input
   } else if (product == "decennial") {
     if (year_input %in%  c(2020)){ 
       api <- "https://api.census.gov/data/2020/dec/dhc?get=group(P12),NAME&for=county:*&in=state:72&key="
@@ -249,6 +259,7 @@ get_wrangle_estimates <- function(year_input, product, municipio.pep, census_key
     }
     var_names <- vars_names(vars)
     dat <- wrangle_dat(dat, product = "decennial", variable_names = var_names, year_input = year_input)
+    dat$year <- year_input
   } else if (product == "pep") {
     if (year_input %in% 2000:2009) {
       if (!municipio.pep) {
