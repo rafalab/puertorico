@@ -283,7 +283,7 @@ get_wrangle_estimates <- function(year_input, product, municipio.pep, census_key
       }
     } else if (year_input %in% 2020:2023) {
       year_input <- 2021
-      url <- "https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/counties/asrh/cc-est2023-syagesex.csv"
+      url <- "https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/counties/asrh/cc-est2023-syasex-72.csv"
       dat <- utils::read.csv(url)  
     }
     dat <- wrangle_pep(dat, municipio.pep, year_input)
